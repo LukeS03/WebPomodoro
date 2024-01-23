@@ -1,3 +1,5 @@
+import "date-fns";
+
 var CURRENTSTATE    = "PAUSED" // states: "PAUSED" "STARTED"
 var CURRENTSTATUS   = "FOCUS"  // states: "WORK" & "BREAK"
 var CURRENTTIMELEFT = new Date(); 
@@ -10,6 +12,10 @@ var PERIODSPASSED   = 0;
 var main = function() {
     var $clockStartLink = $("#clock_startOrPause")
     var $clockReset     = $("#clock_reset")
+
+    WORKTIME = setMinutes(25);
+    BREAKTIME = setMinutes(5);
+    LONGBREAKTIME = setMinutes(15);
 
     $clockStartLink.on("click", function() {
         if(CURRENTSTATE == "PAUSED") {
