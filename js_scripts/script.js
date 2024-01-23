@@ -1,25 +1,25 @@
-import setMinutes from 'date-fns/setMinutes'
-import setSeconds from 'date-fns/setSeconds'
-import getMinutes from 'date-fns/getMinutes'
-import getSeconds from 'date-fns/getSeconds'
+var CURRENTSTATE    = "PAUSED" // states: "PAUSED" "STARTED"
+var CURRENTSTATUS   = "FOCUS"  // states: "WORK" & "BREAK"
+var WORKTIME        = 25
+var BREAKTIME       = 5
+var LONGBREAKTIME   = 15
+var EMPTYTIME       = new Date(0,0,0,0,0,0,0)
+var CURRENTTIMELEFT = EMPTYTIME
+var LONGBREAKINTERVAL = 4; // how many breaks until a long break.
+var PERIODSPASSED   = 0;
+
+var $clockStartLink = $("#clock_startOrPause")
+var $clockReset     = $("#clock_reset")
+var $clockMins      = $('#clock_minutes')
+var $clockSecs      = $('#clock_seconds')
 
 var main = function() {
-    var CURRENTSTATE    = "PAUSED" // states: "PAUSED" "STARTED"
-    var CURRENTSTATUS   = "FOCUS"  // states: "WORK" & "BREAK"
-    var CURRENTTIMELEFT = new Date("01-01-2001"); 
-    var WORKTIME        = new Date();
-    var BREAKTIME       = new Date();
-    var LONGBREAKTIME   = new Date();
-    var LONGBREAKINTERVAL = 4; // how many breaks until a long break.
-    var PERIODSPASSED   = 0;
+    CURRENTTIMELEFT.setSeconds(5)
 
-
-    var $clockStartLink = $("#clock_startOrPause")
-    var $clockReset     = $("#clock_reset")
-
-    WORKTIME = getMinutes(25);
-    BREAKTIME = setMinutes(5);
-    LONGBREAKTIME = setMinutes(15);
+    var minsLeft = CURRENTTIMELEFT.getMinutes()
+    var secsLeft = CURRENTTIMELEFT.getSeconds()
+    $clockMins.text(minsLeft)
+    $clockSecs.text(secsLeft)
 
     $clockStartLink.on("click", function() {
         if(CURRENTSTATE == "PAUSED") {
@@ -34,6 +34,26 @@ var main = function() {
 
         return false;
     });
+
+    setInterval(function() {
+        if(CURRENTTIMELEFT.getSeconds() == 0 && CURRENTTIMELEFT.getMinutes() == 0) {
+            $clockStartLink.text("⏵")
+            CURRENTSTATE = "PAUSED"
+            var minsLeft = CURRENTTIMELEFT.getMinutes()
+            var secsLeft = CURRENTTIMELEFT.getSeconds()
+            $('#clock_minutes').text(minsLeft)
+            $('#clock_seconds').text(secsLeft)
+        }
+
+        else if(CURRENTSTATE == "STARTED") {
+            var minsLeft = CURRENTTIMELEFT.getMinutes()
+            var secsLeft = CURRENTTIMELEFT.getSeconds()
+            $('#clock_minutes').text(minsLeft)
+            $('#clock_seconds').text(secsLeft)
+            CURRENTTIMELEFT.setTime(CURRENTTIMELEFT.getTime() - 1000)
+        }
+        console.log( CURRENTTIMELEFT.getMinutes(), " : ", CURRENTTIMELEFT.getSeconds())
+    }, 1000);
 }
 
 $(document).ready(main)

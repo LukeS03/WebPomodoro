@@ -26,11 +26,11 @@ header {
     margin:auto;
     text-align:center;
     display:grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 33% 33% 33%;
 }
 
 #clock_timepiece {
-    grid-column: span 2;
+    grid-column: span 3;
     font-size:8em;
     text-align:center;
 }
@@ -44,12 +44,23 @@ header {
     font-family: 'Segoe UI Symbol';
 }
 
+#clock_status_view {
+    grid-row: 1 span;
+    grid-column: 3 span;
+}
+
+#current_interval {
+    color:rgb(255, 165, 149);
+}
+
 #clock_startOrPause {
-    padding-right:5%;
     text-align:right;
 }
 
 #clock_reset {
-    padding-left:5%;
     text-align:left;
+}
+
+#click_skip {
+    text-align:center;
 }
