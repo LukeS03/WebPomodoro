@@ -1,4 +1,7 @@
-import {setMinutes, setSeconds, getMinutes, getSeconds} from 'date-fns'
+import setMinutes from 'date-fns/setMinutes'
+import setSeconds from 'date-fns/setSeconds'
+import getMinutes from 'date-fns/getMinutes'
+import getSeconds from 'date-fns/getSeconds'
 
 var main = function() {
     var CURRENTSTATE    = "PAUSED" // states: "PAUSED" "STARTED"
