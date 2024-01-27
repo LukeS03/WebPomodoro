@@ -1,12 +1,12 @@
 var CURRENTSTATE    = "PAUSED" // states: "PAUSED" "STARTED"
 var CURRENTSTATUS   = "WORK"  // states: "WORK" & "BREAK" & "LONGBREAK"
-var WORKTIME        = 25
-var BREAKTIME       = 5
-var LONGBREAKTIME   = 15
+var WORKTIME        = 1
+var BREAKTIME       = 1
+var LONGBREAKTIME   = 1
 var EMPTYTIME       = new Date(0,0,0,0,0,0,0)
 var CURRENTTIMELEFT = EMPTYTIME
 var LONGBREAKINTERVAL = 4; // how many breaks until a long break.
-var PERIODSPASSED   = 1;
+var PERIODSPASSED   = 0;
 
 var $clockStartLink = $("#clock_startOrPause")
 var $clockReset     = $("#clock_reset")
@@ -16,7 +16,6 @@ var $clockSecs      = $('#clock_seconds')
 
 var main = function() {
     CURRENTTIMELEFT.setSeconds(5)
-
     var minsLeft = CURRENTTIMELEFT.getMinutes()
     var secsLeft = CURRENTTIMELEFT.getSeconds()
     $clockMins.text(minsLeft)
@@ -35,31 +34,37 @@ var main = function() {
     });
 
     $clockSkip.on("click", function() {
-        toggleWorkOrBreak();
-        updateTime();
+        togglePaused()
+        CURRENTTIMELEFT.setMinutes(0)
+        CURRENTTIMELEFT.setSeconds(0)
+        toggleWorkOrBreak()
     })
 
     $clockReset.on("click", function() {
         switch(CURRENTSTATE) {
             case "WORK":
                 CURRENTTIMELEFT.setMinutes(WORKTIME)
+                break
             case "BREAK":
                 CURRENTTIMELEFT.setMinutes(BREAKTIME)
+                break
             case "LONGBREAK":
                 CURRENTTIMELEFT.setMinutes(LONGBREAKTIME)
+                break
         }
         CURRENTTIMELEFT.setSeconds(0);
         updateTime();
     })
 
     setInterval(function() {
-        if(CURRENTTIMELEFT.getSeconds() == 0 && CURRENTTIMELEFT.getMinutes() == 0) {
-            toggleWorkOrBreak()
-        }
-        else if(CURRENTSTATE == "STARTED") {
+        if(CURRENTSTATE == "STARTED") {
             CURRENTTIMELEFT.setTime(CURRENTTIMELEFT.getTime() - 1000)
+            if(CURRENTTIMELEFT.getSeconds() == 0 && CURRENTTIMELEFT.getMinutes() == 0) {
+                toggleWorkOrBreak()
+            }
         }
         updateTime();
+        console.log(PERIODSPASSED, " ", LONGBREAKINTERVAL, " ", CURRENTSTATUS, " ", CURRENTSTATE)
     }, 1000);
 }
 
@@ -76,21 +81,26 @@ var toggleWorkOrBreak = function() {
             if(PERIODSPASSED < LONGBREAKINTERVAL) {
                 CURRENTSTATUS = "BREAK"
                 CURRENTTIMELEFT.setMinutes(BREAKTIME)
-                PERIODSPASSED++
-                $("#current_interval").text(PERIODSPASSED)
             }
-            else {
+            else if(PERIODSPASSED == LONGBREAKINTERVAL) {
                 CURRENTSTATUS = "LONGBREAK"
                 CURRENTTIMELEFT.setMinutes(LONGBREAKTIME)
-                PERIODSPASSED = 0;
             }
+            break
         case "BREAK":
             CURRENTSTATUS = "WORK"
             CURRENTTIMELEFT.setMinutes(WORKTIME)
+            PERIODSPASSED++
+            $("#current_interval").text(PERIODSPASSED)
+            break
         case "LONGBREAK":
             CURRENTSTATUS = "WORK"
             CURRENTTIMELEFT.setMinutes(WORKTIME)
+            PERIODSPASSED = 0;
+            $("#current_interval").text(PERIODSPASSED)
+            break
     } 
+    CURRENTTIMELEFT.setSeconds(0);
     togglePaused()
 }
 
@@ -98,7 +108,7 @@ var togglePaused = function() {
     $clockStartLink.text("⏵")
     CURRENTSTATE = "PAUSED"
     if(CURRENTSTATUS == "WORK") {
-        $("#clock_state").text("Paused")
+        $("#clock_state").text("Focus (Paused)")
     }
     else if(CURRENTSTATUS == "BREAK") {
         $("#clock_state").text("Break (Paused)")
