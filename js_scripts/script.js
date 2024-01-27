@@ -7,6 +7,7 @@ var EMPTYTIME       = new Date(0,0,0,0,0,0,0)
 var CURRENTTIMELEFT = EMPTYTIME
 var LONGBREAKINTERVAL = 4; // how many breaks until a long break.
 var PERIODSPASSED   = 0;
+var TIMERFINISHEDSOUND = new Audio("alert-noise.mp3")
 
 var $clockStartLink = $("#clock_startOrPause")
 var $clockReset     = $("#clock_reset")
@@ -60,6 +61,7 @@ var main = function() {
         if(CURRENTSTATE == "STARTED") {
             CURRENTTIMELEFT.setTime(CURRENTTIMELEFT.getTime() - 1000)
             if(CURRENTTIMELEFT.getSeconds() == 0 && CURRENTTIMELEFT.getMinutes() == 0) {
+                TIMERFINISHEDSOUND.play()
                 toggleWorkOrBreak()
             }
         }
