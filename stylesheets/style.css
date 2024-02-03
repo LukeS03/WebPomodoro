@@ -5,10 +5,37 @@ body {
     color:tomato;
 }
 
+nav {
+    display:flex;
+    width:25%;
+    margin:auto;
+    margin-top:5%;
+    align-items:center;
+    justify-content:center;
+    
+}
+
+nav a {
+    display:block;
+    margin-right:1%;
+}
+
+.tab_active {
+    background: rgb(255, 227, 222);
+    color:tomato;
+    padding: 10px 10px 0px 10px;
+    border-radius:10px 10px 0px 0px
+}
+
+#logo {
+    text-decoration:none;
+    content: '🍅'
+}
+
 #content {
     width:33%;
     margin:auto;
-    margin-top:5%;
+    margin-top:0%;
     padding: 25px 1px 55px 1px;
     border-radius:25px; 
     background: rgb(255, 227, 222);
@@ -35,7 +62,7 @@ header {
     text-align:center;
 }
 
-#clock a {
+.clock_button {
     display:block;
     width:auto;
     text-decoration:none;

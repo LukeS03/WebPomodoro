@@ -14,6 +14,7 @@ var $clockReset     = $("#clock_reset")
 var $clockSkip      = $("#clock_skip")
 var $clockMins      = $('#clock_minutes')
 var $clockSecs      = $('#clock_seconds')
+var $resetInterval  = $('#current_interval')
 
 var main = function() {
     CURRENTTIMELEFT.setSeconds(5)
@@ -57,6 +58,11 @@ var main = function() {
         updateTime();
     })
 
+    $resetInterval.on("click", function() {
+        togglePaused()
+        reset()
+    })
+
     setInterval(function() {
         if(CURRENTSTATE == "STARTED") {
             CURRENTTIMELEFT.setTime(CURRENTTIMELEFT.getTime() - 1000)
@@ -96,10 +102,7 @@ var toggleWorkOrBreak = function() {
             $("#current_interval").text(PERIODSPASSED)
             break
         case "LONGBREAK":
-            CURRENTSTATUS = "WORK"
-            CURRENTTIMELEFT.setMinutes(WORKTIME)
-            PERIODSPASSED = 0;
-            $("#current_interval").text(PERIODSPASSED)
+            reset()
             break
     } 
     CURRENTTIMELEFT.setSeconds(0);
@@ -132,6 +135,15 @@ var toggleStarted = function() {
     else if(CURRENTSTATUS == "LONGBREAK") {
         $("#clock_state").text("Long Break")
     }
+}
+
+var reset = function() {
+    CURRENTSTATUS = "WORK"
+    PERIODSPASSED = 0
+    CURRENTTIMELEFT.setMinutes(WORKTIME)
+    CURRENTTIMELEFT.setSeconds(0)
+    updateTime()
+    $("#current_interval").text(PERIODSPASSED)
 }
 
 $(document).ready(main)
