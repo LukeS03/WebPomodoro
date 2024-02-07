@@ -3,12 +3,15 @@ Minimum Requirements:
 	- The timer switches between rest, continue and long rest.
 	- Once the timer is over, it plays a tone and displays a notification.
 
-Extra Features:
-	1) A settings menu
-        i. enable and disable long-breaks
-        ii. edit the interval between long-breaks.
-	2) User-defined timer loops (defaults: 25/5/15; 50/20/0)
-	4) Alternative Layouts
+Extra Features Roadmap:
+	1) Notifications
+	2) Mobile-friendly layout
+	3) A settings menu
+		i. Change timings
+        ii. enable and disable long-breaks
+        iii. edit the interval between long-breaks.
+	4) Cookies
+	5) Alternative Layouts
 		i. 'Aubergine Mode' (Purple-hinted dark-mode.)
 		ii. 'Robot Mode' (Digital-clock like layout with green/grey monochrome display, and a beeping sound effect, like a digital clock)
 		iii. 'Tomato Mode' (Original layout)

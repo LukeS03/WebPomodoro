@@ -1,20 +1,31 @@
+
+//State variables
 var CURRENTSTATE    = "PAUSED" // states: "PAUSED" "STARTED"
 var CURRENTSTATUS   = "WORK"  // states: "WORK" & "BREAK" & "LONGBREAK"
-var WORKTIME        = 1
-var BREAKTIME       = 1
-var LONGBREAKTIME   = 1
-var EMPTYTIME       = new Date(0,0,0,0,0,0,0)
-var CURRENTTIMELEFT = EMPTYTIME
-var LONGBREAKINTERVAL = 4; // how many breaks until a long break.
-var PERIODSPASSED   = 0;
-var TIMERFINISHEDSOUND = new Audio("alert-noise.mp3")
+var HASREQUESTEDNOTIFICATIONPERMS = false;
+var NOTIFICATIONSENABLED = false;
 
+//Timer variables
+var WORKTIME          = 1
+var BREAKTIME         = 1
+var LONGBREAKTIME     = 1
+var EMPTYTIME         = new Date(0,0,0,0,0,0,0)
+var CURRENTTIMELEFT   = EMPTYTIME
+var LONGBREAKINTERVAL = 4; // how many breaks until a long break.
+var PERIODSPASSED     = 0;
+
+//
+var TIMERFINISHEDSOUND = new Audio("alert-noise.mp3")
+var STYLEMODE          = "TOMATO" // "TOMATO" and "AUBERGINE"
+
+//jQuery elements
 var $clockStartLink = $("#clock_startOrPause")
 var $clockReset     = $("#clock_reset")
 var $clockSkip      = $("#clock_skip")
 var $clockMins      = $('#clock_minutes')
 var $clockSecs      = $('#clock_seconds')
 var $resetInterval  = $('#current_interval')
+var $changeCSS      = $('#logo')
 
 var main = function() {
     CURRENTTIMELEFT.setSeconds(5)
@@ -23,8 +34,18 @@ var main = function() {
     $clockMins.text(minsLeft)
     $clockSecs.text(secsLeft)
 
+    
+
     $clockStartLink.on("click", function() {
-        if(CURRENTSTATE == "PAUSED") {
+        if(!HASREQUESTEDNOTIFICATIONPERMS) {
+            HASREQUESTEDNOTIFICATIONPERMS=true;
+            let permPromise = Notification.requestPermission();
+            if(permPromise == "Granted") {
+                console.log("Granted permission to use notifications")
+                NOTIFICATIONSENABLED = true;
+            }
+        }
+        else if(CURRENTSTATE == "PAUSED") {
             toggleStarted()
         }
 
@@ -89,10 +110,12 @@ var toggleWorkOrBreak = function() {
             if(PERIODSPASSED < LONGBREAKINTERVAL) {
                 CURRENTSTATUS = "BREAK"
                 CURRENTTIMELEFT.setMinutes(BREAKTIME)
+                const breakNotf = new Notification("Break Time!")
             }
             else if(PERIODSPASSED == LONGBREAKINTERVAL) {
                 CURRENTSTATUS = "LONGBREAK"
                 CURRENTTIMELEFT.setMinutes(LONGBREAKTIME)
+                const longBreakNotf = Notification("Long Break Time!")
             }
             break
         case "BREAK":
@@ -100,9 +123,11 @@ var toggleWorkOrBreak = function() {
             CURRENTTIMELEFT.setMinutes(WORKTIME)
             PERIODSPASSED++
             $("#current_interval").text(PERIODSPASSED)
+            const workNotf = Notification("Time to Focus!")
             break
         case "LONGBREAK":
             reset()
+            const workNotf2 = Notification("Time to Focus!", { body:"It is now time to focus for ${WORKTIME} minutes." })
             break
     } 
     CURRENTTIMELEFT.setSeconds(0);
@@ -137,6 +162,7 @@ var toggleStarted = function() {
     }
 }
 
+//Reset the timer and intervals.
 var reset = function() {
     CURRENTSTATUS = "WORK"
     PERIODSPASSED = 0
