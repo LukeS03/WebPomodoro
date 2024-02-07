@@ -110,12 +110,12 @@ var toggleWorkOrBreak = function() {
             if(PERIODSPASSED < LONGBREAKINTERVAL) {
                 CURRENTSTATUS = "BREAK"
                 CURRENTTIMELEFT.setMinutes(BREAKTIME)
-                const breakNotf = new Notification("Break Time!")
+                let breakNotf = new Notification("Break Time!")
             }
             else if(PERIODSPASSED == LONGBREAKINTERVAL) {
                 CURRENTSTATUS = "LONGBREAK"
                 CURRENTTIMELEFT.setMinutes(LONGBREAKTIME)
-                const longBreakNotf = Notification("Long Break Time!")
+                let longBreakNotf = new Notification("Long Break Time!")
             }
             break
         case "BREAK":
@@ -123,11 +123,11 @@ var toggleWorkOrBreak = function() {
             CURRENTTIMELEFT.setMinutes(WORKTIME)
             PERIODSPASSED++
             $("#current_interval").text(PERIODSPASSED)
-            const workNotf = Notification("Time to Focus!")
+            let workNotf = new Notification("Time to Focus!")
             break
         case "LONGBREAK":
             reset()
-            const workNotf2 = Notification("Time to Focus!", { body:"It is now time to focus for ${WORKTIME} minutes." })
+            let workNotf2 = new Notification("Time to Focus!", { body:"It is now time to focus for ${WORKTIME} minutes." })
             break
     } 
     CURRENTTIMELEFT.setSeconds(0);
