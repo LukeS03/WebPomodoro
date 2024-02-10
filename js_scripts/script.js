@@ -31,8 +31,7 @@ var main = function() {
     CURRENTTIMELEFT.setSeconds(5)
     var minsLeft = CURRENTTIMELEFT.getMinutes()
     var secsLeft = CURRENTTIMELEFT.getSeconds()
-    $clockMins.text(minsLeft)
-    $clockSecs.text(secsLeft)
+    updateTime()
 
     
 
