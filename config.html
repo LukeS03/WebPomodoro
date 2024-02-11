@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>🍅 FreePomodoro</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="stylesheets/style.css" rel="stylesheet" type="text/css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav>
+            <a href="index.html" id="tab_timer" class="tab_inactive">Timer</a>
+            <a href="config.html" id="tab_config" class="tab_active">Config</a>
+            <a href="about.html" id="tab_about" class="tab_inactive">About</a>
+        </nav>
+        <div id="content">
+            <header>
+                <h1>
+                    <a href="#logo" id="logo">🍅</a> FreePomodoro
+                </h1>
+            </header>
+
+            <main>
+                <h2>
+                    Configure FreePomodoro
+                </h2>
+                    <div class="ConfigNumInput" id="WorkSessionLengthInput">
+                        Focus Length (Minutes)
+                        <input type="number" id="input">
+                    </div>
+                <div class="ConfigBoolInput" id="ConfigEnableLongBreaks">
+                    Enable Long Breaks?
+                    <button>On</button>
+                </div>
+            </main>
+        </div>
+
+        <footer>
+            <div id="acknowledgements"></div>
+        </footer>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="js_scripts/script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,92 @@
+body {
+    font-size:16px;
+    font-family: 'Roboto', sans-serif;
+    background-color:#231123; 
+    color:#8a8aa6;
+}
+
+nav {
+    display:flex;
+    width:25%;
+    margin:auto;
+    margin-top:5%;
+    align-items:center;
+    justify-content:center;
+    
+}
+
+nav a {
+    display:block;
+    margin-right:1%;
+}
+
+.tab_active {
+    background: #372554;
+    color:#8a8aa6;
+    padding: 10px 10px 0px 10px;
+    border-radius:10px 10px 0px 0px
+}
+
+#logo {
+    text-decoration:none;
+}
+
+#content {
+    width:33%;
+    margin:auto;
+    margin-top:0%;
+    padding: 25px 10px 55px 100px;
+    border-radius:25px; 
+    background:#372554;
+}
+
+header {
+    margin:auto;
+    width:100%;
+    text-align:center;
+    font-size: 1.75em;
+}
+
+#clock {
+    width:100%;
+    margin:auto;
+    text-align:center;
+    display:grid;
+    grid-template-columns: 33% 33% 33%;
+}
+
+#clock_timepiece {
+    grid-column: span 3;
+    font-size:8em;
+    text-align:center;
+}
+
+.clock_button {
+    display:block;
+    width:auto;
+    text-decoration:none;
+    font-size:3em;
+    color:#8a8aa6;
+    font-family: 'Segoe UI Symbol';
+}
+
+#clock_status_view {
+    grid-row: 1 span;
+    grid-column: 3 span;
+}
+
+#current_interval {
+    color:#848494;
+}
+
+#clock_startOrPause {
+    text-align:right;
+}
+
+#clock_reset {
+    text-align:left;
+}
+
+#click_skip {
+    text-align:center;
+}
